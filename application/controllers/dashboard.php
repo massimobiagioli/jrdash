@@ -2,6 +2,14 @@
 
 class Dashboard extends CI_Controller {
     
+    public function __construct() {
+        parent::__construct();
+        $userid = $this->session->userdata('user_id');
+        if (!$userid) {
+            $this->logout();
+        }
+    }
+    
     public function index() {
         $this->load->view('dashboard/inc/header_view');
         $this->load->view('dashboard/dashboard_view');
