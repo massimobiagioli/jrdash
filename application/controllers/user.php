@@ -8,12 +8,22 @@ class User extends CI_Controller {
     }
     
     public function login() {
-        $this->session->set_userdata([
-            'user_id' => 1
+        $login = $this->input->post('login');
+        $password = $this->input->post('password');
+        
+        $result = $this->user_model->get([
+            'login' => $login,
+            'password' => hash('sha256', $password . SALT)
         ]);
         
-        $session = $this->session->userdata();
-        print_r($session);
+        $this->output->set_content_type('application/json');
+        
+        if ($result) {
+            $this->session->set_userdata(['user_id' => $result[0]['user_id']]);
+            $this->output->set_output(json_encode(['result' => 1]));
+        } else {
+            $this->output->set_output(json_encode(['result' => 0]));
+        }
     }
     
     public function test_get() {
