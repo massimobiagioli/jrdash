@@ -7,6 +7,11 @@
 
         <script src="<?= base_url() ?>public/js/jquery.js"></script>
         <script src="<?= base_url() ?>public/js/bootstrap.min.js"></script>
+        
+        <script src="<?= base_url() ?>public/js/jrdash/dashboard/result.js"></script>
+        <script src="<?= base_url() ?>public/js/jrdash/dashboard/event.js"></script>
+        <script src="<?= base_url() ?>public/js/jrdash/dashboard/template.js"></script>
+        <script src="<?= base_url() ?>public/js/jrdash/dashboard.js"></script>
     </head>
     <body>
 
