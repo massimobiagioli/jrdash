@@ -16,8 +16,18 @@ var Event = function () {
 
     var create_todo = function () {
         $('#create_todo').submit(function (evt) {
-            console.log('create_todo clicked');
-            return false;
+            evt.preventDefault();
+            
+            var url = $(this).attr('action');
+            var postData = $(this).serialize();
+            
+            $.post(url, postData, function(o) {
+                if (o.result === 1) {
+                    Result.success('test');
+                } else {
+                    Result.error(o.error);
+                }
+            }, 'json');
         });
     };
     
@@ -30,19 +40,19 @@ var Event = function () {
     
     var update_todo = function() {
         
-    }
+    };
     
     var update_note = function() {
         
-    }
+    };
     
     var delete_todo = function() {
         
-    }
+    };
     
     var delete_note = function() {
         
-    }
+    };
     
     this.__construct();
 };

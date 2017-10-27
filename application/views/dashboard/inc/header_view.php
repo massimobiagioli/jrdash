@@ -12,6 +12,12 @@
         <script src="<?= base_url() ?>public/js/jrdash/dashboard/event.js"></script>
         <script src="<?= base_url() ?>public/js/jrdash/dashboard/template.js"></script>
         <script src="<?= base_url() ?>public/js/jrdash/dashboard.js"></script>
+        
+        <script>
+        $(function() {
+            var dashboard = new Dashboard();
+        });    
+        </script>
     </head>
     <body>
 
@@ -27,3 +33,6 @@
         </nav>
 
         <div class="wrapper">
+            
+            <div id="error" class="alert alert-danger hide"></div>
+            <div id="success" class="alert alert-success hide"></div>
