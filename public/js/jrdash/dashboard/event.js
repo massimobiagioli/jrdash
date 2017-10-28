@@ -24,6 +24,8 @@ var Event = function () {
             $.post(url, postData, function(o) {
                 if (o.result === 1) {
                     Result.success('test');
+                    var output = Template.todo(o.data[0]);
+                    $('#list_todo').append(output);
                 } else {
                     Result.error(o.error);
                 }
