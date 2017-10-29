@@ -49,7 +49,23 @@ var Event = function () {
     };
     
     var delete_todo = function() {
-        
+        $('div#list_todo').on('click', '.todo_delete', function(evt) {
+            evt.preventDefault();
+            
+            var self = $(this).parent('div');
+            var url = $(this).attr('href');
+            var postData = {
+                'todo_id': $(this).attr('data-id')
+            };
+            $.post(url, postData, function(o) {
+                if (o.result === 1) {
+                    Result.success('Item deleted');
+                    self.remove();
+                } else {
+                    Result.error(o.message);
+                }
+            }, 'json');
+        });
     };
     
     var delete_note = function() {

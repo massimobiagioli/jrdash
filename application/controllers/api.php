@@ -109,7 +109,6 @@ class Api extends CI_Controller {
 
         if ($result) {
             $query = $this->db->get_where('todo', ['todo_id' => $this->db->insert_id()]);
-            
             $this->output->set_output(json_encode([
                 'result' => 1,
                 'data' => $query->result_array()
@@ -127,7 +126,22 @@ class Api extends CI_Controller {
     }
 
     public function delete_todo() {
-        $todo_id = $this->input->post('todo_id');
+        $this->_require_login();
+        
+        $result = $this->db->delete('todo', [
+            'todo_id' => $this->input->post('todo_id'),
+            'user_id' => $this->session->userdata('user_id')
+        ]);
+        if ($result) {
+            $this->output->set_output(json_encode([
+                'result' => 1
+            ]));
+        } else {
+            $this->output->set_output(json_encode([
+                'result' => 0,
+                'message' => 'Could not delete.'
+            ]));
+        }
     }
 
     public function get_note($id = null) {
