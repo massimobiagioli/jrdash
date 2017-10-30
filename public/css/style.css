@@ -19,3 +19,7 @@
 .hide {
     display: none;
 }
+
+.todo_complete {
+    color: #b3b3b3;
+}

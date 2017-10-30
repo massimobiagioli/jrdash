@@ -6,9 +6,17 @@ var Template = function() {
     
     this.todo = function(obj) {
         var output = '';
-        output += '<div id="todo_' + obj.todo_id + '">';
-        output += '<span>' + obj.content + '</span>';
-        output += '<a data-id="' + obj.todo_id + '" class="todo_delete" href="api/delete_todo">Delete</a>';
+        console.log(obj);
+        if (obj.completed == 1) {
+            output += '<div id="todo_' + obj.todo_id + '" class="todo_complete">';
+            output += '<span>' + obj.content + '</span>';
+            output += '<a data-id="' + obj.todo_id + '" class="todo_update" data-completed="0" href="api/update_todo"><i class="icon-share-alt"></i></a>';
+        } else {
+            output += '<div id="todo_' + obj.todo_id + '">';
+            output += '<span>' + obj.content + '</span>';
+            output += '<a data-id="' + obj.todo_id + '" class="todo_update" data-completed="1" href="api/update_todo"><i class="icon-ok"></i></a>';
+        }        
+        output += '<a data-id="' + obj.todo_id + '" class="todo_delete" href="api/delete_todo"><i class="icon-remove"></i></a>';
         output += '</div>';
         return output;
     };

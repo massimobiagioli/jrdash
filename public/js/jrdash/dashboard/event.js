@@ -41,7 +41,31 @@ var Event = function () {
     };
     
     var update_todo = function() {
-        
+        $('div#list_todo').on('click', '.todo_update', function(evt) {
+            evt.preventDefault();
+            
+            var self = $(this);
+            var url = $(this).attr('href');
+            var postData = {
+                'todo_id': $(this).attr('data-id'),
+                'completed': $(this).attr('data-completed')
+            };
+            $.post(url, postData, function(o) {
+                if (o.result === 1) {
+                    self.parent('div').toggleClass('todo_complete');
+                    
+                    if (self.attr('data-completed') === "1") {
+                        self.html('<i class="icon-share-alt"></i>');
+                        self.attr('data-completed', 0);
+                    } else {
+                        self.html('<i class="icon-ok"></i>');
+                        self.attr('data-completed', 1);
+                    }
+                } else {
+                    Result.error(o.message);
+                }
+            }, 'json');
+        });
     };
     
     var update_note = function() {
