@@ -35,8 +35,20 @@ var Event = function () {
     
     var create_note = function () {
         $('#create_note').submit(function (evt) {
-            console.log('create_note clicked');
-            return false;
+            evt.preventDefault();
+            
+            var url = $(this).attr('action');
+            var postData = $(this).serialize();
+            
+            $.post(url, postData, function(o) {
+                if (o.result === 1) {
+                    Result.success('test');
+                    var output = Template.note(o.data[0]);
+                    $('#list_note').append(output);
+                } else {
+                    Result.error(o.error);
+                }
+            }, 'json');
         });
     };
     

@@ -6,6 +6,7 @@ class Api extends CI_Controller {
         parent::__construct();
         $this->load->model('user_model');
         $this->load->model('todo_model');
+        $this->load->model('note_model');
     }
     
     private function _require_login() {
@@ -16,6 +17,7 @@ class Api extends CI_Controller {
             ]));
             return false;
         }
+        return true;
     }
 
     public function login() {
@@ -75,7 +77,9 @@ class Api extends CI_Controller {
     }
 
     public function get_todo($id = null) {
-        $this->_require_login();
+        if (!$this->_require_login()) {
+            return;
+        }
         
         if ($id !== null) {
             $where = [
@@ -93,7 +97,9 @@ class Api extends CI_Controller {
     }
 
     public function create_todo() {
-        $this->_require_login();
+        if (!$this->_require_login()) {
+            return;
+        }
 
         $this->form_validation->set_rules('content', 'Content', 'required|max_length[255]');
         if ($this->form_validation->run() === false) {
@@ -124,7 +130,9 @@ class Api extends CI_Controller {
     }
 
     public function update_todo() {
-        $this->_require_login();
+        if (!$this->_require_login()) {
+            return;
+        }
         
         $todo_id = $this->input->post('todo_id');
         $completed = $this->input->post('completed');
@@ -148,7 +156,9 @@ class Api extends CI_Controller {
     }
 
     public function delete_todo() {
-        $this->_require_login();
+        if (!$this->_require_login()) {
+            return;
+        }
         
         $result = $this->todo_model->delete([
             'todo_id' => $this->input->post('todo_id'),
@@ -167,13 +177,58 @@ class Api extends CI_Controller {
     }
 
     public function get_note($id = null) {
-        $this->_require_login();
-
+        if (!$this->_require_login()) {
+            return;
+        }
         
+        if ($id !== null) {
+            $where = [
+                'note_id' => $id,
+                'user_id' => $this->session->userdata('user_id')
+            ];
+        } else {
+            $where = [
+                'user_id' => $this->session->userdata('user_id')
+            ];
+        }
+        $result = $this->note_model->get($where);
+        
+        $this->output->set_output(json_encode($result));
     }
 
     public function create_note() {
+        if (!$this->_require_login()) {
+            return;
+        }
         
+        $this->form_validation->set_rules('title', 'Title', 'required|max_length[100]');
+        $this->form_validation->set_rules('content', 'Content', 'required|max_length[255]');
+        if ($this->form_validation->run() === false) {
+            $this->output->set_output(json_encode([
+                'result' => 0,
+                'error' => $this->form_validation->error_array()
+            ]));
+            return;
+        }
+
+        $result = $this->note_model->insert([
+            'title' => $this->input->post('title'),
+            'content' => $this->input->post('content'),
+            'user_id' => $this->session->userdata('user_id')
+        ]);
+
+        if ($result) {
+            $data= $this->note_model->get($this->db->insert_id());
+            $this->output->set_output(json_encode([
+                'result' => 1,
+                'data' => $data
+            ]));
+        } else {
+            $this->output->set_output(json_encode([
+                'result' => 0,
+                'error' => 'Could not insert record'
+            ]));
+        }
     }
 
     public function update_note() {

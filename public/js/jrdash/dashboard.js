@@ -1,11 +1,8 @@
 var Dashboard = function () {
     
-    var self = this;
-    
     this.__construct = function () {
         Template = new Template();
         Event = new Event();
-        //Result = new Result();
         load_todo();
         load_note();
     };
