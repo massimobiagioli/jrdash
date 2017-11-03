@@ -9,6 +9,7 @@ var Event = function () {
         create_todo();
         create_note();
         update_todo();
+        update_note_display();
         update_note();
         delete_todo();
         delete_note();
@@ -80,8 +81,36 @@ var Event = function () {
         });
     };
     
-    var update_note = function() {
+    var update_note_display = function() {
+        $('div#list_note').on('click', '.note_update_display', function(evt) {
+            evt.preventDefault();
+            
+            var note_id = $(this).data('id');
+            var output = Template.note_edit(note_id);
+            $('#note_edit_container_' + note_id).html(output);
+        });
         
+        $('div#list_note').on('click', '.note_edit_cancel', function(evt) {
+            evt.preventDefault();
+            $(this).parents('div.note_edit_container').html('');
+        });
+    };
+    
+    var update_note = function() {
+        $('div#list_note').on('submit', 'form.note_edit_form', function(evt) {
+            evt.preventDefault();
+            
+            var url = $(this).attr('action');
+            var postData = $(this).serialize();
+            
+            $.post(url, postData, function(o) {
+                if (o.result === 1) {
+                    Result.success("Note saved successfully");
+                } else {
+                    Result.error(o.message);
+                }
+            }, 'json');
+        });
     };
     
     var delete_todo = function() {
