@@ -1,14 +1,14 @@
 <?php
 
 class Api extends CI_Controller {
-    
+
     public function __construct() {
         parent::__construct();
         $this->load->model('user_model');
         $this->load->model('todo_model');
         $this->load->model('note_model');
     }
-    
+
     private function _require_login() {
         if (!$this->session->userdata('user_id')) {
             $this->output->set_output(json_encode([
@@ -80,7 +80,7 @@ class Api extends CI_Controller {
         if (!$this->_require_login()) {
             return;
         }
-        
+
         if ($id !== null) {
             $where = [
                 'todo_id' => $id,
@@ -92,7 +92,7 @@ class Api extends CI_Controller {
             ];
         }
         $result = $this->todo_model->get($where);
-        
+
         $this->output->set_output(json_encode($result));
     }
 
@@ -116,7 +116,7 @@ class Api extends CI_Controller {
         ]);
 
         if ($result) {
-            $data= $this->todo_model->get($this->db->insert_id());
+            $data = $this->todo_model->get($this->db->insert_id());
             $this->output->set_output(json_encode([
                 'result' => 1,
                 'data' => $data
@@ -133,13 +133,13 @@ class Api extends CI_Controller {
         if (!$this->_require_login()) {
             return;
         }
-        
+
         $todo_id = $this->input->post('todo_id');
         $completed = $this->input->post('completed');
-        
+
         $result = $this->todo_model->update([
-           'completed' => $completed 
-        ], [
+            'completed' => $completed
+                ], [
             'todo_id' => $todo_id,
             'user_id' => $this->session->userdata('user_id')
         ]);
@@ -159,7 +159,7 @@ class Api extends CI_Controller {
         if (!$this->_require_login()) {
             return;
         }
-        
+
         $result = $this->todo_model->delete([
             'todo_id' => $this->input->post('todo_id'),
             'user_id' => $this->session->userdata('user_id')
@@ -180,7 +180,7 @@ class Api extends CI_Controller {
         if (!$this->_require_login()) {
             return;
         }
-        
+
         if ($id !== null) {
             $where = [
                 'note_id' => $id,
@@ -192,7 +192,7 @@ class Api extends CI_Controller {
             ];
         }
         $result = $this->note_model->get($where);
-        
+
         $this->output->set_output(json_encode($result));
     }
 
@@ -200,7 +200,7 @@ class Api extends CI_Controller {
         if (!$this->_require_login()) {
             return;
         }
-        
+
         $this->form_validation->set_rules('title', 'Title', 'required|max_length[100]');
         $this->form_validation->set_rules('content', 'Content', 'required|max_length[255]');
         if ($this->form_validation->run() === false) {
@@ -218,7 +218,7 @@ class Api extends CI_Controller {
         ]);
 
         if ($result) {
-            $data= $this->note_model->get($this->db->insert_id());
+            $data = $this->note_model->get($this->db->insert_id());
             $this->output->set_output(json_encode([
                 'result' => 1,
                 'data' => $data
@@ -232,7 +232,36 @@ class Api extends CI_Controller {
     }
 
     public function update_note() {
+        if (!$this->_require_login()) {
+            return;
+        }
+
         $note_id = $this->input->post('note_id');
+        $title = $this->input->post('title');
+        $content = $this->input->post('content');
+
+        $result = $this->note_model->update([
+            'title' => $title,
+            'content' => $content
+                ], [
+            'note_id' => $note_id,
+            'user_id' => $this->session->userdata('user_id')
+        ]);
+//        if ($result) {
+//            $this->output->set_output(json_encode([
+//                'result' => 1
+//            ]));
+//        } else {
+//            $this->output->set_output(json_encode([
+//                'result' => 0,
+//                'message' => 'Could not update.'
+//            ]));
+//        }
+        
+        // Non contolla affected rows per non dare errore lato js (.....)
+        $this->output->set_output(json_encode([
+            'result' => 1
+        ]));
     }
 
     public function delete_note() {

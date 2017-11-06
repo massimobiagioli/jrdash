@@ -11,6 +11,7 @@ var Event = function () {
         update_todo();
         update_note_display();
         update_note();
+        toggle_note();
         delete_todo();
         delete_note();
     };
@@ -85,9 +86,14 @@ var Event = function () {
         $('div#list_note').on('click', '.note_update_display', function(evt) {
             evt.preventDefault();
             
-            var note_id = $(this).data('id');
+            var note_id = $(this).attr('data-id');
             var output = Template.note_edit(note_id);
             $('#note_edit_container_' + note_id).html(output);
+            
+            var title = $('#note_title_' + note_id).html();
+            var content = $('#note_content_' + note_id).html();
+            $('#note_edit_container_' + note_id).find('.title').val(title);
+            $('#note_edit_container_' + note_id).find('.content').val(content);
         });
         
         $('div#list_note').on('click', '.note_edit_cancel', function(evt) {
@@ -100,16 +106,28 @@ var Event = function () {
         $('div#list_note').on('submit', 'form.note_edit_form', function(evt) {
             evt.preventDefault();
             
+            var self = $(this);
             var url = $(this).attr('action');
             var postData = $(this).serialize();
             
             $.post(url, postData, function(o) {
                 if (o.result === 1) {
-                    Result.success("Note saved successfully");
+                    $('#note_title_' + self.find('.note_id').val()).html(self.find('.title').val());
+                    $('#note_content_' + self.find('.note_id').val()).html(self.find('.content').val());
+                    self.remove();
                 } else {
                     Result.error(o.message);
                 }
             }, 'json');
+        });
+    };
+    
+    var toggle_note = function() {
+        $('div#list_note').on('click', '.note_toggle', function(evt) {
+            evt.preventDefault();
+            
+            var id = $(this).data('id');
+            $('#note_detail_' + id).toggleClass('hide');
         });
     };
     
