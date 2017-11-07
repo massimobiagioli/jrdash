@@ -152,7 +152,23 @@ var Event = function () {
     };
     
     var delete_note = function() {
-        
+        $('div#list_note').on('click', '.note_delete', function(evt) {
+            evt.preventDefault();
+            
+            var self = $(this).parent('div');
+            var url = $(this).attr('href');
+            var postData = {
+                'note_id': $(this).attr('data-id')
+            };
+            $.post(url, postData, function(o) {
+                if (o.result === 1) {
+                    Result.success('Item deleted');
+                    self.remove();
+                } else {
+                    Result.error(o.message);
+                }
+            }, 'json');
+        });
     };
     
     this.__construct();

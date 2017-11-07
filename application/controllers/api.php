@@ -265,7 +265,24 @@ class Api extends CI_Controller {
     }
 
     public function delete_note() {
-        $note_id = $this->input->post('note_id');
+        if (!$this->_require_login()) {
+            return;
+        }
+
+        $result = $this->note_model->delete([
+            'note_id' => $this->input->post('note_id'),
+            'user_id' => $this->session->userdata('user_id')
+        ]);
+        if ($result) {
+            $this->output->set_output(json_encode([
+                'result' => 1
+            ]));
+        } else {
+            $this->output->set_output(json_encode([
+                'result' => 0,
+                'message' => 'Could not delete.'
+            ]));
+        }
     }
 
 }
