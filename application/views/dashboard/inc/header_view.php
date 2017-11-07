@@ -2,16 +2,16 @@
 <html lang="en">
     <head>
         <title>jrDash</title>
-        <link rel="stylesheet" href="<?= base_url() ?>public/css/bootstrap.min.css">
+        <link rel="stylesheet" href="<?= base_url() ?>public/third-party/css/bootstrap.min.css">
         <link rel="stylesheet" href="<?= base_url() ?>public/css/style.css">
 
-        <script src="<?= base_url() ?>public/js/jquery.js"></script>
-        <script src="<?= base_url() ?>public/js/bootstrap.min.js"></script>
+        <script src="<?= base_url() ?>public/third-party/js/jquery.js"></script>
+        <script src="<?= base_url() ?>public/third-party/js/bootstrap.min.js"></script>
         
-        <script src="<?= base_url() ?>public/js/jrdash/dashboard/result.js"></script>
-        <script src="<?= base_url() ?>public/js/jrdash/dashboard/event.js"></script>
-        <script src="<?= base_url() ?>public/js/jrdash/dashboard/template.js"></script>
-        <script src="<?= base_url() ?>public/js/jrdash/dashboard.js"></script>
+        <script src="<?= base_url() ?>public/js/dashboard/result.js"></script>
+        <script src="<?= base_url() ?>public/js/dashboard/event.js"></script>
+        <script src="<?= base_url() ?>public/js/dashboard/template.js"></script>
+        <script src="<?= base_url() ?>public/js/dashboard.js"></script>
         
         <script>
         $(function() {
