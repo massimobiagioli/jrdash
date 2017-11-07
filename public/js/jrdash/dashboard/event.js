@@ -28,6 +28,9 @@ var Event = function () {
                     Result.success('test');
                     var output = Template.todo(o.data[0]);
                     $('#list_todo').append(output);
+                    
+                    // Clear form input fields
+                    $('#create_todo input[type="text"]').val('');
                 } else {
                     Result.error(o.error);
                 }
@@ -47,6 +50,10 @@ var Event = function () {
                     Result.success('test');
                     var output = Template.note(o.data[0]);
                     $('#list_note').append(output);
+                    
+                    // Clear form input fields
+                    $('#create_note input[type="text"]').val('');
+                    $('#create_note textarea').val('');
                 } else {
                     Result.error(o.error);
                 }
@@ -135,6 +142,9 @@ var Event = function () {
         $('div#list_todo').on('click', '.todo_delete', function(evt) {
             evt.preventDefault();
             
+            var c = confirm('Are you sure to delete?');
+            if (c === false) return false;
+            
             var self = $(this).parent('div');
             var url = $(this).attr('href');
             var postData = {
@@ -154,6 +164,9 @@ var Event = function () {
     var delete_note = function() {
         $('div#list_note').on('click', '.note_delete', function(evt) {
             evt.preventDefault();
+            
+            var c = confirm('Are you sure to delete?');
+            if (c === false) return false;
             
             var self = $(this).parent('div');
             var url = $(this).attr('href');
