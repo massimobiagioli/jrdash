@@ -32,7 +32,7 @@
             </div>
         </nav>
 
-        <div class="wrapper">
+        <div class="container">
             
             <div id="error" class="alert alert-danger hide"></div>
             <div id="success" class="alert alert-success hide"></div>

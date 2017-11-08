@@ -1,7 +1,28 @@
+@import url('https://fonts.googleapis.com/css?family=Ubuntu+Condensed');
+
+h1, h2, h3, h4, h5 {
+    font-family: 'Ubuntu Condensed', sans-serif;
+}
+
 /** Override Bootstrap */
-.wrapper {
-    width: 980px;
+.container {
+    width: 940px;
     margin: 0 auto;
+}
+
+#header {
+    background: #f5f5f5;
+    margin-bottom: 50px;
+}
+
+#footer {
+    text-align: right;
+}
+
+#footer .container {
+    border-top: 1px solid #f5f5f5;
+    padding-top: 20px;
+    color: #b3b3b3;
 }
 
 /** Dashboard */

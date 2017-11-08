@@ -1,7 +1,9 @@
     </div> <!-- .wrapper -->
 
-    <footer>
-        &copy; <?= date('Y') ?>
+    <div id="footer">
+        <div class="container">
+            &copy; <?= date('Y') ?>
+        </div>
     </footer>
 
 </body>

@@ -1,6 +1,6 @@
     </div> <!-- .wrapper -->
 
-    <footer>
+    <div id="footer">
         &copy; <?= date('Y') ?>
     </footer>
 

@@ -1,6 +1,8 @@
 <div class="row">
-    <div class="span6">
+    <div class="span6 offset2">
         <form id="login_form" class="form-horizontal" method="post" action="<?= site_url('api/login') ?>">
+            <h3 class="text-right">Login</h3>
+            
             <div class="control-group">
                 <label class="control-label">Login</label>
                 <div class="controls">
@@ -18,11 +20,10 @@
             <div class="control-group">
                 <div class="controls">
                     <input type="submit" value="Login" class="btn btn-primary">
+                    <a class="btn" href="<?= site_url('home/register') ?>">Register</a>
                 </div>
             </div>
         </form>
-        
-        <a href="<?= site_url('home/register') ?>">Register</a>
     </div>
 </div>
 

@@ -10,8 +10,10 @@
     </head>
     <body>
 
-        <header>
-            jrDash
-        </header>
+        <div id="header">
+            <div class="container">
+                <h3>jrDash</h3>
+            </div>
+        </div>
 
-        <div class="wrapper">
+        <div class="container">
