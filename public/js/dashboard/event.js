@@ -73,8 +73,7 @@ var Event = function () {
             };
             $.post(url, postData, function(o) {
                 if (o.result === 1) {
-                    self.parent('div').toggleClass('todo_complete');
-                    
+                    $('#todo_' + postData.todo_id).toggleClass('todo_complete');
                     if (self.attr('data-completed') === "1") {
                         self.html('<i class="icon-share-alt"></i>');
                         self.attr('data-completed', 0);
@@ -98,7 +97,8 @@ var Event = function () {
             $('#note_edit_container_' + note_id).html(output);
             
             var title = $('#note_title_' + note_id).html();
-            var content = $('#note_content_' + note_id).html();
+            var content = $('#note_detail_' + note_id).html();
+            
             $('#note_edit_container_' + note_id).find('.title').val(title);
             $('#note_edit_container_' + note_id).find('.content').val(content);
         });

@@ -17,6 +17,15 @@ h1, h2, h3, h4, h5 {
 
 #footer {
     text-align: right;
+    margin-top: 50px;
+}
+
+#error,
+#success {
+    position: fixed;
+    bottom: 10px;
+    z-index: 100;
+    width: 100%;
 }
 
 #footer .container {
@@ -36,6 +45,57 @@ h1, h2, h3, h4, h5 {
     min-height: 500px;
 }
 
+.navbar .container {
+    width: 940px;
+    margin: 0 auto;
+}
+
+#list_todo,
+#list_note {
+    margin: 0 15px;
+}
+
+#list_todo div,
+#list_note div {
+    padding: 3px 2px;
+    border-radius: 3px;
+    clear: both;
+    overflow: auto;
+}
+
+#list_todo div span:first-child {
+    width: 222px;
+    float: left;
+    display: block;
+    overflow: auto;
+}
+
+#list_todo div:hover,
+#list_note div:hover {
+    background: rgba(255, 255, 255, .9);
+}
+
+#list_todo span.options,
+#list_note span.options {
+    float: right;
+}
+
+#list_todo span.options a,
+#list_note span.options a {
+    margin-left: 4px;
+}
+
+#list_todo span.options a:hover,
+#list_note span.options a:hover {
+    background: rgba(0, 0, 0, .3);
+}
+
+/** Form creates */
+#create_todo,
+#create_note {
+    padding: 5px 0 5px 5px;
+}
+
 /** Generic stuff */
 .hide {
     display: none;
@@ -49,6 +109,7 @@ h1, h2, h3, h4, h5 {
 .ajax-loader-gray {
     width: 16px;
     height: 16px;
+    display: inline-block;
 }
 
 .ajax-loader {

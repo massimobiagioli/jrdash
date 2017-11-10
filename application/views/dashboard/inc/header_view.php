@@ -21,16 +21,18 @@
     </head>
     <body>
 
-        <nav class="navbar">
+        <div class="navbar">
             <div class="navbar-inner">
-                <span class="brand">jrDash</span>
-                <ul class="nav">
-                    <li><a href="#">Dashboard</a></li>
-                    <li><a href="#">User</a></li>
-                    <li><a href="<?= site_url('dashboard/logout') ?>">Logout</a></li>
-                </ul>
+                <div class="container">
+                    <span class="brand">jrDash</span>
+                    <ul class="nav">
+                        <li><a href="#">Dashboard</a></li>
+                        <li><a href="#">User</a></li>
+                        <li><a href="<?= site_url('dashboard/logout') ?>">Logout</a></li>
+                    </ul>                    
+                </div>
             </div>
-        </nav>
+        </div>
 
         <div class="container">
             
