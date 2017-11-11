@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Ubuntu+Condensed');
+@import url('http://fonts.googleapis.com/css?family=Ubuntu+Condensed');
 
 h1, h2, h3, h4, h5 {
     font-family: 'Ubuntu Condensed', sans-serif;
@@ -8,6 +8,14 @@ h1, h2, h3, h4, h5 {
 .container {
     width: 940px;
     margin: 0 auto;
+    position: relative;
+}
+
+#error, #success {
+    position: fixed;
+    bottom: 10px;
+    z-index: 100;
+    width: 889px;
 }
 
 #header {
@@ -16,16 +24,8 @@ h1, h2, h3, h4, h5 {
 }
 
 #footer {
-    text-align: right;
     margin-top: 50px;
-}
-
-#error,
-#success {
-    position: fixed;
-    bottom: 10px;
-    z-index: 100;
-    width: 100%;
+    text-align: right;
 }
 
 #footer .container {
@@ -34,33 +34,45 @@ h1, h2, h3, h4, h5 {
     color: #b3b3b3;
 }
 
-/** Dashboard */
-#dashboard-side {
-    background-color: #f2f2f2;
-    min-height: 500px;
-}
-
-#dashboard-main {
-    background-color: #f2f2f2;
-    min-height: 500px;
-}
-
 .navbar .container {
     width: 940px;
     margin: 0 auto;
 }
 
-#list_todo,
-#list_note {
-    margin: 0 15px;
+.navbar .nav {
+    width: 60%;
 }
 
-#list_todo div,
+#dashboard-side {
+    background: #f2f2f2;
+    min-height: 500px;
+}
+
+#dashboard-main {
+    background: #f2f2f2;
+    min-height: 500px;
+}
+
+.todo_complete {
+    color: #b3b3b3;
+}
+
+#list_todo, 
+#list_note {
+    margin: 0 15px 0 15px;
+}
+
+#list_todo div, 
 #list_note div {
     padding: 3px 2px;
     border-radius: 3px;
-    clear: both;
     overflow: auto;
+    clear: both;
+}
+
+#list_todo div:hover, 
+#list_note div:hover {
+    background: rgba(255, 255, 255, 0.8)
 }
 
 #list_todo div span:first-child {
@@ -70,52 +82,43 @@ h1, h2, h3, h4, h5 {
     overflow: auto;
 }
 
-#list_todo div:hover,
-#list_note div:hover {
-    background: rgba(255, 255, 255, .9);
-}
 
-#list_todo span.options,
+#list_todo span.options, 
 #list_note span.options {
     float: right;
 }
 
-#list_todo span.options a,
+#list_todo span.options a, 
 #list_note span.options a {
     margin-left: 4px;
 }
 
 #list_todo span.options a:hover,
 #list_note span.options a:hover {
-    background: rgba(0, 0, 0, .3);
+    background: rgba(0, 0, 0, 0.3);
 }
 
-/** Form creates */
-#create_todo,
-#create_note {
+/** Form Creates */
+#create_todo, #create_note {
     padding: 5px 0 5px 5px;
 }
 
-/** Generic stuff */
-.hide {
-    display: none;
-}
 
-.todo_complete {
-    color: #b3b3b3;
-}
+/** Generic Stuff */
 
-.ajax-loader, 
-.ajax-loader-gray {
+.ajax-loader, .ajax-loader-gray {
+    background: url('../img/ajax-loader-white.gif');
     width: 16px;
     height: 16px;
     display: inline-block;
 }
 
-.ajax-loader {
-    background: url('../img/ajax-loader-white.gif');
-}
-
 .ajax-loader-gray {
     background: url('../img/ajax-loader-gray.gif');
+}
+
+
+
+.hide {
+    display: none;
 }

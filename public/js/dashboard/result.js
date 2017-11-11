@@ -1,14 +1,16 @@
-var Result = function () {
-
-    this.__construct = function () {
-        console.log('Result created');
+var Result = function() {
+  
+    // ------------------------------------------------------------------------
+  
+    this.__construct = function() {
     };
     
+    // ------------------------------------------------------------------------
+    
     this.success = function(msg) {
-        var dom = $('#success');
+        var dom = $("#success");
         if (typeof msg === 'undefined') {
-            dom.html('UNDEFINED').fadeIn();
-            return;
+            dom.html('Success').fadeIn();
         }
         dom.html(msg).fadeIn();
         
@@ -17,19 +19,25 @@ var Result = function () {
         }, 5000);
     };
     
+    // ------------------------------------------------------------------------
+    
     this.error = function(msg) {
-        var dom = $('#error');
+        var dom = $("#error");
+        
         if (typeof msg === 'undefined') {
-            dom.html('UNDEFINED').fadeIn();
-        } else if (typeof msg === 'object') {
-            // Loop
+            dom.html('Error').fadeIn();;
+        }
+        
+        if (typeof msg === 'object') {
             var output = '<ul>';
             for (var key in msg) {
                 output += '<li>' + msg[key] + '</li>';
             }
             output += '</ul>';
+            
             dom.html(output).fadeIn();
-        } else {
+        }
+        else {
             dom.html(msg).fadeIn();
         }
         
@@ -38,6 +46,8 @@ var Result = function () {
         }, 5000);
     };
     
+    // ------------------------------------------------------------------------
+    
     this.__construct();
+    
 };
-

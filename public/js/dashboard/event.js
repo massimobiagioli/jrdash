@@ -1,11 +1,9 @@
-var Event = function () {
-
-    this.__construct = function () {
-        console.log('Event created');
-        
+var Event = function() {
+  
+    // ------------------------------------------------------------------------
+  
+    this.__construct = function() {
         Result = new Result();
-        
-        // Init event handlers
         create_todo();
         create_note();
         update_todo();
@@ -15,22 +13,22 @@ var Event = function () {
         delete_todo();
         delete_note();
     };
-
-    var create_todo = function () {
-        $('#create_todo').submit(function (evt) {
+    
+    // ------------------------------------------------------------------------
+    
+    var create_todo = function() {
+        $("#create_todo").submit(function(evt) {
             evt.preventDefault();
             
             var url = $(this).attr('action');
             var postData = $(this).serialize();
             
             $.post(url, postData, function(o) {
-                if (o.result === 1) {
+                if (o.result == 1) {
                     Result.success('test');
-                    var output = Template.todo(o.data[0]);
-                    $('#list_todo').append(output);
-                    
-                    // Clear form input fields
-                    $('#create_todo input[type="text"]').val('');
+                    var output = Template.todo(o.data);
+                    $("#list_todo").append(output);
+                    $("#create_todo input[type=text]").val('');
                 } else {
                     Result.error(o.error);
                 }
@@ -38,152 +36,184 @@ var Event = function () {
         });
     };
     
-    var create_note = function () {
-        $('#create_note').submit(function (evt) {
+    // ------------------------------------------------------------------------
+    
+    var create_note = function() {
+        $("#create_note").submit(function(evt) {
             evt.preventDefault();
             
             var url = $(this).attr('action');
             var postData = $(this).serialize();
             
             $.post(url, postData, function(o) {
-                if (o.result === 1) {
+                if (o.result == 1) {
                     Result.success('test');
-                    var output = Template.note(o.data[0]);
-                    $('#list_note').append(output);
+                    var output = Template.note(o.data);
+                    $("#list_note").append(output);
                     
-                    // Clear form input fields
-                    $('#create_note input[type="text"]').val('');
-                    $('#create_note textarea').val('');
+                    $("#create_note input[type=text]").val('');
+                    $("#create_note textarea").val('');
+                    
                 } else {
                     Result.error(o.error);
                 }
             }, 'json');
         });
     };
+    
+    // ------------------------------------------------------------------------
     
     var update_todo = function() {
-        $('div#list_todo').on('click', '.todo_update', function(evt) {
-            evt.preventDefault();
+        $("body").on('click', '.todo_update', function(e) {
+            e.preventDefault();
             
             var self = $(this);
             var url = $(this).attr('href');
             var postData = {
-                'todo_id': $(this).attr('data-id'),
-                'completed': $(this).attr('data-completed')
+                todo_id: $(this).attr('data-id'),
+                completed: $(this).attr('data-completed')
             };
+            
             $.post(url, postData, function(o) {
-                if (o.result === 1) {
-                    $('#todo_' + postData.todo_id).toggleClass('todo_complete');
-                    if (self.attr('data-completed') === "1") {
+                if (o.result == 1) {
+                    
+                    if (postData.completed == 1) {
+                        $('#todo_' + postData.todo_id).addClass('todo_complete')
                         self.html('<i class="icon-share-alt"></i>');
                         self.attr('data-completed', 0);
                     } else {
+                        $('#todo_' + postData.todo_id).removeClass('todo_complete')
                         self.html('<i class="icon-ok"></i>');
                         self.attr('data-completed', 1);
                     }
+                    
                 } else {
-                    Result.error(o.message);
+                    Result.error('Nothing Updated');
                 }
             }, 'json');
+            
         });
     };
+
+    // ------------------------------------------------------------------------
     
     var update_note_display = function() {
-        $('div#list_note').on('click', '.note_update_display', function(evt) {
-            evt.preventDefault();
-            
-            var note_id = $(this).attr('data-id');
+        $("body").on('click', '.note_update_display', function(e) {
+            e.preventDefault();
+            var note_id = $(this).data('id');
             var output = Template.note_edit(note_id);
-            $('#note_edit_container_' + note_id).html(output);
             
-            var title = $('#note_title_' + note_id).html();
-            var content = $('#note_detail_' + note_id).html();
+            $("#note_edit_container_" + note_id).html(output);
             
-            $('#note_edit_container_' + note_id).find('.title').val(title);
-            $('#note_edit_container_' + note_id).find('.content').val(content);
+            // Display data after the TEMPLATE is created
+            var title = $("#note_title_" + note_id).html();
+            var content = $("#note_content_" + note_id).html();
+            
+            $("#note_edit_container_" + note_id).find('.title').val(title);
+            $("#note_edit_container_" + note_id).find('.content').val(content);
         });
         
-        $('div#list_note').on('click', '.note_edit_cancel', function(evt) {
-            evt.preventDefault();
-            $(this).parents('div.note_edit_container').html('');
+        $("body").on("click", ".note_edit_cancel", function(e) {
+            e.preventDefault();
+            $(this).parents('.note_edit_container').html('');
         });
-    };
+    }
     
+    // ------------------------------------------------------------------------
+
     var update_note = function() {
-        $('div#list_note').on('submit', 'form.note_edit_form', function(evt) {
-            evt.preventDefault();
+        $("body").on("submit", ".note_edit_form", function(e) {
+            e.preventDefault();
             
-            var self = $(this);
+            var form = $(this);
             var url = $(this).attr('action');
-            var postData = $(this).serialize();
+            var postData = {
+                note_id: $(this).find('.note_id').val(),
+                title: $(this).find('.title').val(),
+                content: $(this).find('.content').val()
+            };
             
             $.post(url, postData, function(o) {
-                if (o.result === 1) {
-                    $('#note_title_' + self.find('.note_id').val()).html(self.find('.title').val());
-                    $('#note_content_' + self.find('.note_id').val()).html(self.find('.content').val());
-                    self.remove();
+                if (o.result == 1) {
+                    Result.success("Successfully Updated Note.");
+                    $("#note_title_" + postData.note_id).html(postData.title);
+                    $("#note_content_" + postData.note_id).html(postData.content);
+                    form.remove();
                 } else {
-                    Result.error(o.message);
+                    Result.error("Error Saving");
                 }
             }, 'json');
+            
         });
+        
     };
     
-    var toggle_note = function() {
-        $('div#list_note').on('click', '.note_toggle', function(evt) {
-            evt.preventDefault();
-            
-            var id = $(this).data('id');
-            $('#note_detail_' + id).toggleClass('hide');
-        });
-    };
+    // ------------------------------------------------------------------------
     
     var delete_todo = function() {
-        $('div#list_todo').on('click', '.todo_delete', function(evt) {
-            evt.preventDefault();
+        $("body").on('click', '.todo_delete', function(e) {
+            e.preventDefault();
             
-            var c = confirm('Are you sure to delete?');
-            if (c === false) return false;
+            var c = confirm('Are you sure you want to delete?')
+            if (c == false) return false;
             
-            var self = $(this).parent('div');
+            var self = $(this).parents('div:eq(0)');
             var url = $(this).attr('href');
             var postData = {
                 'todo_id': $(this).attr('data-id')
             };
+            
             $.post(url, postData, function(o) {
-                if (o.result === 1) {
-                    Result.success('Item deleted');
+                if (o.result == 1) {
+                    Result.success('Item Deleted.');
                     self.remove();
                 } else {
-                    Result.error(o.message);
+                    Result.error(o.msg);
                 }
             }, 'json');
         });
     };
-    
+
+    // ------------------------------------------------------------------------
+
     var delete_note = function() {
-        $('div#list_note').on('click', '.note_delete', function(evt) {
-            evt.preventDefault();
+        $("body").on('click', '.note_delete', function(e) {
+            e.preventDefault();
             
-            var c = confirm('Are you sure to delete?');
-            if (c === false) return false;
+            var c = confirm('Are you sure you want to delete?')
+            if (c == false) return false;
             
-            var self = $(this).parent('div');
+            var self = $(this).parents('div:eq(0)');
             var url = $(this).attr('href');
             var postData = {
                 'note_id': $(this).attr('data-id')
             };
+            
             $.post(url, postData, function(o) {
-                if (o.result === 1) {
-                    Result.success('Item deleted');
+                if (o.result == 1) {
+                    Result.success('Item Deleted.');
                     self.remove();
                 } else {
-                    Result.error(o.message);
+                    Result.error(o.msg);
                 }
             }, 'json');
         });
     };
     
+    // ------------------------------------------------------------------------
+    
+    var toggle_note = function() {
+        $("body").on("click", ".note_toggle", function(e) {
+            e.preventDefault;
+            var note_id = $(this).data('id');
+            
+            $("#note_content_" + note_id).toggleClass('hide');
+            
+        });
+    };
+    
+    // ------------------------------------------------------------------------
+    
     this.__construct();
+    
 };
-
